@@ -1,9 +1,18 @@
-import { swc } from '../deps.ts';
+import initSwc, { parse, Param, Identifier, FunctionDeclaration } from "swc";
 import { MetaApplicationAST, MetaFunctionParamAST } from "./meta.ts";
 
 export class ParseAST {
+  protected constructor() {
+
+  }
+
+  public static async initialize() {
+    await initSwc();
+    return new ParseAST();
+  }
+
   public async parse(source: string): Promise<MetaApplicationAST> {
-    const ast = await swc.parse(source, {
+    const ast = await parse(source, {
       syntax: "typescript",
       dynamicImport: true,
       tsx: true,
@@ -16,7 +25,7 @@ export class ParseAST {
 
     for (const statement of ast.body) {
       if (statement.type === "ExportDeclaration") {
-        const declaration = statement.declaration as swc.FunctionDeclaration;
+        const declaration = statement.declaration as FunctionDeclaration;
         const name = declaration.identifier.value;
 
         application.functions.push({
@@ -32,9 +41,9 @@ export class ParseAST {
     return application;
   }
 
-  public parseFunctionParam(param: swc.Param): MetaFunctionParamAST {
+  public parseFunctionParam(param: Param): MetaFunctionParamAST {
     if ("left" in param.pat) {
-      const left = param.pat.left as swc.Identifier;
+      const left = param.pat.left as Identifier;
       return {
         key: left.value,
         type: "string",
@@ -42,7 +51,7 @@ export class ParseAST {
     }
 
     return {
-      key: (param.pat as swc.Identifier).value,
+      key: (param.pat as Identifier).value,
       type: "string",
     };
   }

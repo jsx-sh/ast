@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "$std": "https://deno.land/std@0.210.0/path/mod.ts",
+    "$assert": "https://deno.land/std@0.210.0/assert/mod.ts",
+    "swc":  "https://esm.sh/@swc/wasm-web@1.3.101"
+  },
+  "tasks": {
+    "test": "deno test --allow-read --allow-net"
+  }
+}
