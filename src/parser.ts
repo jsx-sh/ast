@@ -1,5 +1,7 @@
-import initSwc, { parse, Param, Identifier, FunctionDeclaration } from "swc";
+import { swc } from "../deps.ts";
 import { MetaApplicationAST, MetaFunctionParamAST } from "./meta.ts";
+
+const { default: initSwc, parse } = swc;
 
 export class ParseAST {
   protected constructor() {
@@ -23,15 +25,15 @@ export class ParseAST {
       functions: [],
     };
 
-    for (const statement of ast.body) {
+    for (const statement of ast.body as any[]) {
       if (statement.type === "ExportDeclaration") {
-        const declaration = statement.declaration as FunctionDeclaration;
+        const declaration = statement.declaration;
         const name = declaration.identifier.value;
 
         application.functions.push({
           name,
           returnType: "string",
-          params: declaration.params.map((param) => {
+          params: declaration.params.map((param: any) => {
             return this.parseFunctionParam(param);
           }),
         });
@@ -41,9 +43,9 @@ export class ParseAST {
     return application;
   }
 
-  public parseFunctionParam(param: Param): MetaFunctionParamAST {
+  public parseFunctionParam(param: any): MetaFunctionParamAST {
     if ("left" in param.pat) {
-      const left = param.pat.left as Identifier;
+      const left = param.pat.left;
       return {
         key: left.value,
         type: "string",
@@ -51,7 +53,7 @@ export class ParseAST {
     }
 
     return {
-      key: (param.pat as Identifier).value,
+      key: param.pat.value,
       type: "string",
     };
   }
