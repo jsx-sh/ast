@@ -1,4 +1,5 @@
-import { assert, path } from "../deps.ts";
+import { path } from '../deps.ts';
+import { assert } from "../dev_deps.ts";
 import { ParseAST } from "./parser.ts";
 
 Deno.test("Test simple typescript AST parsing", async () => {
