@@ -5,10 +5,16 @@
 ## Usage
 
 ```typescript
-import { getHelloWorld } from "https://raw.githubusercontent.com/BrunnerLivio/deno-module-starter/{VERSION}/mod.ts";
+import { ParseAST } from 'https://github.com/jsx-sh/ast/raw/main/mod.ts';
 
-const helloWorld = getHelloWorld();
-console.log(helloWorld); // Prints "Hello World" in bold
+const parser = new ParseAST();
+const ast = parser.parse(`
+  export function hello(): string {
+    return 'Hello World!';
+  }
+`);
+
+console.log(ast);
 ```
 
 ## Test
