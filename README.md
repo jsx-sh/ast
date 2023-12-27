@@ -1,8 +1,12 @@
 # 🦕 jsx-sh/ast
 
-[Deno](https://deno.land) module starter repository.
+Internal AST parser for [jsx-sh](https://github.com/jsx-sh) platform.
+
+<br />
 
 ## Usage
+
+Import in your deno script:
 
 ```typescript
 import { ParseAST } from 'https://github.com/jsx-sh/ast/raw/main/mod.ts';
@@ -16,6 +20,8 @@ const ast = parser.parse(`
 
 console.log(ast);
 ```
+
+<br />
 
 ## Test
 
